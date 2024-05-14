@@ -1,10 +1,4 @@
-// rings at which to half the width of a
-// field, counting outwards.
-// ring 1 is the first pathway outside the center
-// and allways has 8 fields
 const keys = [1,2,4,8];
-// counting the innermost wall as 2,
-// radius of the outermost wall
 const maxC = 15;
 
 const round = [...Array(maxC)].map((_,i) => 2 ** (keys.findLastIndex(j => j < i+1)) * 8);

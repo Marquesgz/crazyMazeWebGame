@@ -89,4 +89,15 @@ var colorContainers = document.querySelector('.radial-ring-container');
 	colorContainers.style.setProperty('--bheight', (colorContainers.offsetHeight * 2.3).toFixed(2) + 'px');
 
 
+
+
+	const spans = document.querySelectorAll('p span');
+
+	const numLetters = spans.length;
 	
+	spans.forEach(function(span, i) {
+		const mappedIndex = i - (numLetters / 2)
+		span.style.animationDelay = (mappedIndex * 0.25) + 's';
+	});
+	
+		
