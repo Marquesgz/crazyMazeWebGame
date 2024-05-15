@@ -8,6 +8,31 @@ const svgns = 'http://www.w3.org/2000/svg';
 
 const chooseFrom = a => a[Math.random() * a.length | 0];
 
+document.addEventListener('keydown', (event) => {
+
+  const keyCode = event.keyCode;
+
+  const movements = {
+    37: 'Left',   
+    38: 'Up1',    
+    39: 'Right', 
+    40: 'Down'    
+  };
+
+  
+  if (movements[keyCode]) {
+  
+    const buttonId = 'btn' + movements[keyCode];
+    const button = director.move[buttonId];
+
+ 
+    if (button && !button.el.disabled) {
+      button.el.click();
+    }
+  }
+});
+
+
 const polarToCartesian = (r, f) => [
   r * 20 * Math.cos(f * 2 * Math.PI),
   r * 20 * Math.sin(f * 2 * Math.PI)
@@ -421,6 +446,42 @@ async function init(algorithm) {
   await walls.get('c', 2).remove(end);
 
   const currentCell = solve(cells, start, end);
+  
+  body.classList.remove('building');
+  director.setTo(currentCell);
+}
+async function init(algorithm) {
+  const size = maxC * 20 + 50;
+  document.querySelector('svg').setAttribute('viewBox', [-size, -size, 2*size, 2*size].join(' '));
+
+  root.textContent = '';
+  body.classList.remove('solved');
+  body.classList.add('building');
+
+  const cells = director.cells = new Cells();
+  const walls = director.walls = new Walls();
+
+  const from = chooseFrom(cells.all)
+  from.maze = true;
+  await walks[algorithm](cells, walls, from);
+
+  const start = Math.random() * maxP | 0;
+  const end = Math.random() * 8 | 0;
+
+  await walls.get('c', maxC).remove(start);
+  await walls.get('c', 2).remove(end);
+
+  const currentCell = solve(cells, start, end);
+
+  // Add the blue dot (prize) in the center
+ // Add the blue dot (prize) in the center
+const prize = document.createElementNS(svgns, 'circle');
+prize.setAttribute('id', 'prize'); // Set the id attribute
+prize.setAttribute('cx', '0');
+prize.setAttribute('cy', '0');
+prize.setAttribute('r', '5');
+root.appendChild(prize);
+
   
   body.classList.remove('building');
   director.setTo(currentCell);

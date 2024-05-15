@@ -9,7 +9,7 @@ p {
     bottom: 0;
     width: 100%;
     text-align: center;
-    background: #ffd;
+    background: rgb(221, 255, 226);
     margin: 0;
     padding: 0.5em;
 }
@@ -35,13 +35,13 @@ svg {
 line,
 g circle {
     fill: none;
-    stroke: #b7b7b7;
+    stroke: #00420b;
     stroke-width: 4;
     stroke-linecap: square;
 }
 path {
     fill: none;
-    stroke: #080;
+    stroke: #c00;
     stroke-width: 4;
     stroke-linejoin: round;
     stroke-linecap: round;
@@ -101,3 +101,10 @@ button {
 button:disabled {
     font-weight: normal;
 }
+/* CSS for the blue dot (prize) */
+#prize {
+    fill: rgb(0, 145, 236);
+    stroke: rgb(0, 145, 236); /* Optional: Add a white border */
+    stroke-width: 2px; /* Optional: Adjust the border width */
+  }
+  
