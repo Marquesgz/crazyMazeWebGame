@@ -1,30 +1,46 @@
 body {
-    background-color: #000000;
     margin: 0;
     overflow: hidden;
-}
-p {
     font-family: sans-serif;
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    text-align: center;
-    background: rgb(221, 255, 226);
-    margin: 0;
-    padding: 0.5em;
+    background-color: #000;
 }
+
+#video-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    z-index: -1;
+}
+
+#content {
+    position: relative;
+    z-index: 1;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
 svg {
     width: 100vw;
     height: calc(100vh - 3rem);
 }
+
 #ball {
     fill: #c00;
     transition: transform 0.3s ease-in;
     pointer-events: none;
 }
+
 .solved #ball {
     animation: grow 0.7s 0.3s ease-out forwards;
 }
+
 @keyframes grow {
     to {
         fill: #e08;
@@ -32,13 +48,15 @@ svg {
         r: 38px;
     }
 }
+
 line,
 g circle {
     fill: none;
-    stroke: #8e8b1f;
+    stroke: #945536;
     stroke-width: 4;
     stroke-linecap: square;
 }
+
 path {
     fill: none;
     stroke: #c00;
@@ -48,13 +66,16 @@ path {
     display: none;
     pointer-events: none;
 }
+
 #center {
     pointer-events: all;
     cursor: pointer;
 }
+
 #center:hover~path {
     display: inline;
 }
+
 #direct {
     position: absolute;
     top: 5%;
@@ -63,23 +84,27 @@ path {
     height: 6rem;
     transform: rotate(90deg);
     transition: transform 0.3s ease-in, opacity 0.3s linear;
-    border: 2px solid #c00;
+    border: 2px solid #945536;
     border-radius: 50%;
     padding: 0.75rem;
 }
+
 .solved #direct,
 .building #direct {
     opacity: 0;
 }
+
 .col,
 .row {
     display: flex;
     align-content: center;
     align-items: stretch;
 }
+
 .col {
     flex-direction: column;
 }
+
 .row {
     flex-direction: row;
     display: flex;
@@ -87,9 +112,11 @@ path {
     justify-content: center;
     height: 2rem;
 }
+
 .row.spaced {
     justify-content: space-between;
 }
+
 button {
     box-sizing: border-box;
     width: 2rem;
@@ -98,14 +125,17 @@ button {
     font-weight: bold;
     font-size: 1.25rem;
 }
+
 button:disabled {
     font-weight: normal;
 }
+
 #prize {
     fill: rgb(236, 138, 0);
     stroke: rgb(236, 138, 0);
     stroke-width: 15px;
 }
+
 #timer {
     position: absolute;
     top: 5%;
@@ -114,4 +144,3 @@ button:disabled {
     font-size: 2rem;
     font-family: sans-serif;
 }
-

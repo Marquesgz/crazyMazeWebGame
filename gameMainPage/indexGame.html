@@ -5,20 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sun Seekers</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="../resources/favicon.png" type="image/png">
 </head>
 <body>
-    <svg>
-        <g></g>
-        <circle id="ball" r="6"/>
-    </svg>
-    <div id="direct" class="col">
-        <div class="row"><button id="btnUp1">↑</button><button id="btnUp2">↑</button></div>
-        <div class="row spaced"><button id="btnLeft">←</button><button id="btnRight">→</button></div>
-        <div class="row"><button id="btnDown">↓</button></div>
+    <video autoplay loop muted id="video-background">
+        <source src="https://cdn.pixabay.com/video/2019/10/11/27770-365891067_large.mp4" type="video/mp4">
+        <!-- Provide alternative video formats here for better compatibility -->
+        Your browser does not support the video tag.
+    </video>
+    <div id="content">
+        <svg>   
+            <g></g>
+            <circle id="ball" r="6"/>
+        </svg>
+        <div id="direct" class="col">
+            <div class="row"><button id="btnUp1">↑</button><button id="btnUp2">↑</button></div>
+            <div class="row spaced"><button id="btnLeft">←</button><button id="btnRight">→</button></div>
+            <div class="row"><button id="btnDown">↓</button></div>
+        </div>
+        <div id="timer">1:30</div>
     </div>
-d    <div id="timer">1:30</div>
     <script src="script.js"></script>
 </body>
 </html>
+
 
     
