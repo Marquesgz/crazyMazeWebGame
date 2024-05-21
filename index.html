@@ -3,32 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crazy Maze</title>
+    <title>Sun Seekers</title>
     <link rel="stylesheet" href="styleMenu.css">
     <script>
         function navigateToGame() {
             window.location.href = "gameMainPage/indexGame.html";
         }
     </script>
+    <link rel="icon" href="resources/favicon.png" type="image/png">
+
 </head>
 <body>
     <video autoplay loop muted id="video-background">
-        <source src="https://cdn.pixabay.com/video/2018/08/18/17844-285736480_large.mp4" type="video/mp4">
+        <source src="https://cdn.pixabay.com/video/2019/10/11/27770-365891067_large.mp4" type="video/mp4">
         <!-- Provide alternative video formats here for better compatibility -->
         Your browser does not support the video tag.
     </video>
     <div class="container">
         <p class="title-container">
-            <img src="resources/gameName.png" alt="Crazy Maze" class="title-image">
+            <img src="resources/startPage.png" alt="Maze Legends" class="title-image">
         </p>
     </div><br>
     
     <div class="radial-ring-container">
         <div class="radial-ring-wrapper">
             <div class="radial-ring-color"></div>
-            <a href="#" onclick="navigateToGame()" class="radial-ring-button">Start Game</a>
-
-           
+            <a href="#" onclick="navigateToGame()" class="radial-ring-button">Start Game</a> 
         </div>
     </div>
     <script src="scriptMenu.js"></script> 

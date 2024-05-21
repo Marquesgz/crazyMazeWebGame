@@ -22,13 +22,6 @@ svg {
     transition: transform 0.3s ease-in;
     pointer-events: none;
 }
-
-#greenBall {
-    fill: green;
-    transition: transform 0.3s ease-in;
-    pointer-events: none;
-}
-
 .solved #ball {
     animation: grow 0.7s 0.3s ease-out forwards;
 }
@@ -42,7 +35,7 @@ svg {
 line,
 g circle {
     fill: none;
-    stroke: #00420b;
+    stroke: #8e8b1f;
     stroke-width: 4;
     stroke-linecap: square;
 }
@@ -108,10 +101,17 @@ button {
 button:disabled {
     font-weight: normal;
 }
-/* CSS for the blue dot (prize) */
 #prize {
-    fill: rgb(0, 145, 236);
-    stroke: rgb(0, 145, 236); /* Optional: Add a white border */
-    stroke-width: 2px; /* Optional: Adjust the border width */
-  }
-  
+    fill: rgb(236, 138, 0);
+    stroke: rgb(236, 138, 0);
+    stroke-width: 15px;
+}
+#timer {
+    position: absolute;
+    top: 5%;
+    right: 5%;
+    color: #fff;
+    font-size: 2rem;
+    font-family: sans-serif;
+}
+

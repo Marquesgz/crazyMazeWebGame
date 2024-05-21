@@ -1,7 +1,7 @@
-const keys = [1,2,4,8];
+const keys = [1, 2, 4, 8];
 const maxC = 15;
 
-const round = [...Array(maxC)].map((_,i) => 2 ** (keys.findLastIndex(j => j < i+1)) * 8);
+const round = [...Array(maxC)].map((_, i) => 2 ** (keys.findLastIndex(j => j < i + 1)) * 8);
 const maxP = round.slice(-1)[0];
 
 const svgns = 'http://www.w3.org/2000/svg';
@@ -20,24 +20,24 @@ document.addEventListener('keydown', (event) => {
     }
 });
 
-const polarToCartesian = (r, f) => [ r * 20 * Math.cos(f * 2 * Math.PI), r * 20 * Math.sin(f * 2 * Math.PI) ];
+const polarToCartesian = (r, f) => [r * 20 * Math.cos(f * 2 * Math.PI), r * 20 * Math.sin(f * 2 * Math.PI)];
 
 class Button {
-    constructor (el, callback) {
+    constructor(el, callback) {
         this.el = el;
         el.addEventListener('click', () => callback(this.to));
         el.addEventListener('touch', () => callback(this.to));
         this.hide();
     }
 
-    show (neighbour, closed) {
+    show(neighbour, closed) {
         this.el.style.display = null;
         this.el.disabled = closed;
         this.to = neighbour;
     }
 
-    hide () {
-        this.el.style.display ='none';
+    hide() {
+        this.el.style.display = 'none';
         this.to = null;
     }
 }
@@ -46,7 +46,6 @@ class Director {
     constructor() {
         this.direct = document.getElementById('direct');
         this.ball = document.getElementById('ball');
-        this.greenBall = document.getElementById('greenBall');
         this.move = {};
         this.direct.querySelectorAll('button').forEach(el => {
             const btn = new Button(el, this.setTo.bind(this));
@@ -66,6 +65,7 @@ class Director {
 
         if (!cell.c) {
             body.classList.add('solved');
+            this.onReachCenter();
             return;
         }
 
@@ -75,10 +75,9 @@ class Director {
         }
     }
 
-    setGreenBallTo(cell) {
-        const { r, f } = cell.polarCoordinates;
-        const [x, y] = polarToCartesian(r, f);
-        this.greenBall.style.transform = `translate(${x}px, ${y}px)`;
+    onReachCenter() {
+        // Redirect to another HTML page
+        window.location.href = '../gameWinPage/winPage.html';
     }
 }
 
@@ -86,7 +85,7 @@ class Cell {
     #doubles = keys.slice(1);
     #halfes = this.#doubles.map(j => j - 1);
 
-    constructor (c, p) {
+    constructor(c, p) {
         this.c = c;
         this.p = p;
         this.maze = false;
@@ -114,23 +113,23 @@ class Cell {
         }
     }
 
-    get polarCoordinates () {
+    get polarCoordinates() {
         return { r: this.c ? this.c + 1.5 : 0, f: (this.p * 2 + 1) / round[this.c] / 2 };
     }
 
-    get outsideMore () {
+    get outsideMore() {
         return this.#halfes.includes(this.c);
     }
 
-    get insideLess () {
+    get insideLess() {
         return this.#doubles.includes(this.c);
     }
 
-    after (cell) {
+    after(cell) {
         return (this.p || round[this.c]) - cell?.p == 1;
     }
 
-    getWall (cell) {
+    getWall(cell) {
         if (cell.c < this.c) {
             return ['c', this.c + 1, this.p];
         } else if (cell.c > this.c) {
@@ -146,7 +145,7 @@ class Cell {
 class Cells {
     #o = [[new Cell(0, 0)]];
 
-    constructor () {
+    constructor() {
         for (let c = 1; c < maxC - 1; c++) {
             this.#o[c] = [];
             for (let p = 0; p < round[c]; p++) {
@@ -155,32 +154,32 @@ class Cells {
         }
     }
 
-    get (c, p) {
+    get(c, p) {
         return this.#o[c]?.[p];
     }
 
-    neighbours (cell) {
+    neighbours(cell) {
         return cell.neighbours.map(([c, p, d]) => [this.get(c, p), d]);
     }
 
-    fieldNeighbours (cell) {
+    fieldNeighbours(cell) {
         return cell.neighbours?.map(([c, p]) => this.get(c, p)).filter(n => n.c);
     }
 
-    get all () {
+    get all() {
         return this.#o.slice(1).flat();
     }
 }
 
 class Wall {
-    constructor (primitive, length) {
+    constructor(primitive, length) {
         this.primitive = document.createElementNS(svgns, primitive);
         this.primitive.setAttribute('pathLength', length);
         this.sectors = Array(length).fill(true);
         root.appendChild(this.primitive);
     }
 
-    sectorsToDashes () {
+    sectorsToDashes() {
         let array = [0], last = false;
         for (let s of this.sectors) {
             if (s === last) {
@@ -198,7 +197,7 @@ class Wall {
         this.primitive.style.strokeDashoffset = -offset;
     }
 
-    async remove (sector) {
+    async remove(sector) {
         this.sectors[sector - this.base] = false;
         await new Promise((resolve) => requestAnimationFrame(() => {
             this.sectorsToDashes();
@@ -206,13 +205,13 @@ class Wall {
         }));
     }
 
-    isOpen (sector) {
+    isOpen(sector) {
         return this.sectors[sector - this.base];
     }
 }
 
 class CircularWall extends Wall {
-    constructor (radius) {
+    constructor(radius) {
         const sectors = round[radius - 1];
         super('circle', sectors);
         this.base = 0;
@@ -222,7 +221,7 @@ class CircularWall extends Wall {
 }
 
 class PerpendicularWall extends Wall {
-    constructor (ray) {
+    constructor(ray) {
         const min = round.findIndex((r, i) => i && !(ray % (maxP / r))) + 1;
         super('line', maxC - min);
         this.base = min - 1;
@@ -239,7 +238,7 @@ class Walls {
     #c = [];
     #p = [];
 
-    constructor () {
+    constructor() {
         for (let r = 2; r < maxC + 1; r++) {
             this.#c[r] = new CircularWall(r);
         }
@@ -248,7 +247,7 @@ class Walls {
         }
     }
 
-    get (cat, w) {
+    get(cat, w) {
         return cat == 'c' ? this.#c[w] : this.#p[w];
     }
 }
@@ -267,7 +266,7 @@ const walks = {
                 current = chooseFrom(cells.fieldNeighbours(current));
                 walk.push(current);
             }
-            for(let [i, c] of walk.entries()) {
+            for (let [i, c] of walk.entries()) {
                 if (c.maze) break;
                 const [cat, w, r] = c.getWall(walk[i + 1]);
                 await walls.get(cat, w).remove(r);
@@ -306,16 +305,16 @@ const walks = {
     }
 }
 
-function stepBackwards (step) {
+function stepBackwards(step) {
     const steps = [step];
-    while(typeof step.maze == 'object') {
+    while (typeof step.maze == 'object') {
         step = step.maze;
         steps.push(step);
     }
     return steps;
 }
 
-function solve (cells, start, end) {
+function solve(cells, start, end) {
     const s1 = stepBackwards(cells.get(maxC - 2, start));
     const s2 = stepBackwards(cells.get(1, end));
     const startCell = new Cell(maxC - 1, start);
@@ -332,7 +331,7 @@ function solve (cells, start, end) {
 
     const d = ['M'];
 
-    polar.forEach(({r, f, o, s}, i) => {
+    polar.forEach(({ r, f, o, s }, i) => {
         const prev = polar[i - 1];
         const next = polar[i + 1];
         if (prev && r < prev.r && o) {
@@ -361,9 +360,35 @@ function solve (cells, start, end) {
     return startCell;
 }
 
+let timer;
+
+const setTime = (seconds) => {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    const timerDisplay = document.getElementById('timer');
+    timerDisplay.textContent = `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
+};
+
+
+const startTimer = () => {
+    let timeLeft = 90; // 3 minutes in seconds
+    setTime(timeLeft);
+
+    timer = setInterval(() => {
+        timeLeft -= 1;
+        setTime(timeLeft);
+
+        if (timeLeft <= 0) {
+            clearInterval(timer);
+            // Redirect to another HTML page
+            window.location.href = '../gameOverPage/gameOver.html';
+        }
+    }, 1000);
+};
+
 async function init(algorithm) {
     const size = maxC * 20 + 50;
-    document.querySelector('svg').setAttribute('viewBox', [-size, -size, 2*size, 2*size].join(' '));
+    document.querySelector('svg').setAttribute('viewBox', [-size, -size, 2 * size, 2 * size].join(' '));
     root.textContent = '';
     body.classList.remove('solved');
     body.classList.add('building');
@@ -383,52 +408,22 @@ async function init(algorithm) {
 
     const currentCell = solve(cells, start, end);
 
-    // Add the blue dot (prize) in the center
+    
     const prize = document.createElementNS(svgns, 'circle');
-    prize.setAttribute('id', 'prize'); // Set the id attribute
+    prize.setAttribute('id', 'prize');
     prize.setAttribute('cx', '0');
     prize.setAttribute('cy', '0');
     prize.setAttribute('r', '5');
     root.appendChild(prize);
 
-    const greenBall = document.createElementNS(svgns, 'circle');
-    greenBall.setAttribute('id', 'greenBall');
-    greenBall.setAttribute('cx', '0');
-    greenBall.setAttribute('cy', '0');
-    greenBall.setAttribute('r', '5');
-    root.appendChild(greenBall);
 
     body.classList.remove('building');
     director.setTo(currentCell);
 
-    // Move the green ball towards the center
-    const moveGreenPlayer = setInterval(() => {
-        // Get the current position of the green ball
-        const currentGreenCell = cells.get(greenBall.c, greenBall.p);
-
-        // Calculate the direction and distance to the center
-        const direction = currentGreenCell.p > 0 ? -1 : 1;
-        const distance = Math.min(1, currentGreenCell.c);
-
-        // Move the green ball towards the center
-        const newCell = cells.get(currentGreenCell.c - distance, currentGreenCell.p + direction);
-
-        if (newCell && !newCell.maze) {
-            greenBall.c = newCell.c;
-            greenBall.p = newCell.p;
-            director.setGreenBallTo(newCell);
-        }
-
-        // Check if the green ball has reached the center cell
-        if (newCell.c === 0 && newCell.p === 0) {
-            clearInterval(moveGreenPlayer); // Stop moving the green ball
-        }
-    }, 1000);
-
-    setTimeout(() => {
-        clearInterval(moveGreenPlayer); // Stop moving the green ball after 10 seconds
-    }, 10000);
+    startTimer();
 }
+
+
 
 const body = document.querySelector('body');
 const root = document.querySelector('svg g');
@@ -436,5 +431,3 @@ const root = document.querySelector('svg g');
 const director = new Director();
 
 init('wilsons');
-
-

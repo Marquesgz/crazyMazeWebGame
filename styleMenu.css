@@ -128,8 +128,8 @@ body {
   
 .title-container {
     position: absolute;
-    top: 50%;
-    left: 49%;
+    top: 45%;
+    left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
 }
