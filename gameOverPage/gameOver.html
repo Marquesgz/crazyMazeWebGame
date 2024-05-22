@@ -3,21 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="gameOverPage.css">
-    <link rel="icon" href="../resources/favicon.png" type="image/png">
     <title>Sun Seekers</title>
-</head>
-<body>
+    <link rel="stylesheet" href="gameOverPage.css">
     <script>
         function navigateToGame() {
             window.location.href = "../gameMainPage/indexGame.html";
         }
     </script>
-    <h1>game over</h1>
+    <link rel="icon" href="/resources/favicon.png" type="image/png">
+
+</head>
+<body>
+    <video autoplay loop muted id="video-background">
+        <source src="https://cdn.pixabay.com/video/2024/02/27/202235-917699824_large.mp4" type="video/mp4">
+        <!-- Provide alternative video formats here for better compatibility -->
+        Your browser does not support the video tag.
+    </video>
+    <div class="container">
+        <p class="title-container">
+            <img src="/resources/goneAgent.png" alt="sunseekers" class="title-image">
+        </p>
+    </div><br>
+    
     <div class="radial-ring-container">
         <div class="radial-ring-wrapper">
             <div class="radial-ring-color"></div>
-            <a href="#" onclick="navigateToGame()" class="radial-ring-button">Play Again</a> 
+            <a href="#" onclick="navigateToGame()" class="radial-ring-button">Let's try again!</a> 
         </div>
     </div>
 </body>

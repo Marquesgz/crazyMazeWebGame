@@ -28,7 +28,7 @@ body {
 
 svg {
     width: 100vw;
-    height: calc(100vh - 3rem);
+    height: calc(100vh - 6rem);
 }
 
 #ball {
@@ -143,4 +143,15 @@ button:disabled {
     color: #fff;
     font-size: 2rem;
     font-family: sans-serif;
+}
+
+p {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    padding: 1em;
+    margin: 0;
 }
